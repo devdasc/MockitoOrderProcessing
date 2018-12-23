@@ -15,8 +15,10 @@ import org.mockito.MockitoAnnotations;
 
 class OrderBOImplTest {
 	private static final int ORDER_ID = 123;
+	
 	@Mock
 	OrderDAO dao;
+	
 	private OrderBOImpl bo;
 	
 	@BeforeEach
@@ -85,20 +87,20 @@ class OrderBOImplTest {
 		when(dao.read(ORDER_ID)).thenReturn(order);
 		when(dao.update(order)).thenReturn(0);
 		boolean result = bo.cancelOrder(ORDER_ID);
-		
+	
 		assertFalse(result);
 		verify(dao).read(ORDER_ID);
 		verify(dao).update(order);		
 	}
 	@Test
-	public void cancelOrder_Should_Throw_A_BOException_On_Read() throws SQLException, BOException{
+	public void cancelOrder_Should_Throw_A_BOException_On_Read() throws SQLException, BOException{//anyInt
 		
 		assertThrows(BOException.class,()->{
 			when(dao.read(anyInt())).thenThrow(SQLException.class);
 			bo.cancelOrder(ORDER_ID);
 		});		
 	}
-	@Test
+	@Test()
 	public void cancelOrder_Should_Throw_BOException_On_Update() throws SQLException, BOException{
 		
 		assertThrows(BOException.class,()->{
@@ -120,5 +122,22 @@ class OrderBOImplTest {
 		verify(dao).delete(ORDER_ID);
 		
 	}
-
+	//to test delete order 
+		@Test
+		public void deleteOrder_DoesNot_Deletes_The_order() throws SQLException, BOException{
+			when(dao.delete(ORDER_ID)).thenReturn(0);
+			boolean result = bo.deleteOrder(ORDER_ID);
+			assertFalse(result);
+			
+			verify(dao).delete(ORDER_ID);
+			
+		}
+		//to test delete order 
+		@Test
+		public void deleteOrder_Should_Throw_Exception_On_Delete() throws SQLException, BOException{
+			assertThrows(BOException.class,()->{
+				when(dao.delete(ORDER_ID)).thenThrow(BOException.class);
+				bo.deleteOrder(ORDER_ID);
+			});		
+		}
 }

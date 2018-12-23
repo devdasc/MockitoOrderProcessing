@@ -39,6 +39,7 @@ public class OrderBOImpl implements OrderBO {
 		}
 		return true;
 	}
+	
 
 	@Override
 	public boolean deleteOrder(int id) throws BOException {
@@ -48,8 +49,7 @@ public class OrderBOImpl implements OrderBO {
 				return false;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new BOException(e);
 		}
 		return true;
 	}

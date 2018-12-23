@@ -26,8 +26,8 @@ class ListTest {
 		myList.add("devdas2");
 		
 		
-		Mockito.doReturn(3).when(myList).size();
-		assertSame(3,myList.size());
+		Mockito.doReturn(2).when(myList).size();
+		assertSame(2,myList.size());
 	}
 
 }
